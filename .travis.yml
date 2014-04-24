@@ -17,7 +17,8 @@ before_install:
 # command to install dependencies
 install:
   - conda update --yes conda
-  - conda create -n travis_conda --yes pip python=$TRAVIS_PYTHON_VERSION numpy scipy nose sphinx ipython sympy pyparsing cython
+  - if [[ $TRAVIS_PYTHON_VERSION == '3.3' ]]; then CONDA_PYTHON_VERSION=3.4; else CONDA_PYTHON_VERSION=${TRAVIS_PYTHON_VERSION:0:3}; fi
+  - conda create -n travis_conda --yes pip python=$CONDA_PYTHON_VERSION numpy scipy nose sphinx ipython sympy pyparsing cython
   - source activate travis_conda
   - pip install -q coveralls --use-mirrors
   - python setup.py install --with-cython --fail-on-error
